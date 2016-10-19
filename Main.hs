@@ -48,7 +48,7 @@ evalExpr env (AssignExpr OpAssign (LVar var) expr) = do
             varDecl env (VarDecl (Id var) Nothing)
             exprEval <- evalExpr env expr
             setVar var exprEval
-        _ -> do -- Com a variável criada setamos o novo valor.
+        _ -> do -- Com a variável já criada setamos o novo valor.
             e <- evalExpr env expr
             setVar var e
 
@@ -221,6 +221,7 @@ evalStmt env (BlockStmt (x:xs)) = do
         _ -> evalStmt env (BlockStmt xs)
 
 -- Avaliação de loops
+-- For
 evalStmt env (ForStmt initialize expr1 expr2 stmt) =
     let stmtIni = case initialize of
             NoInit -> EmptyStmt
@@ -278,7 +279,6 @@ evalStmt env (ReturnStmt expression) =
 
 -- Avaliação de declarações de função
 evalStmt env (FunctionStmt name args body) = funcDecl env (name, args, body)
-
 
 -- Do not touch this one :)
 evaluate :: StateT -> [Statement] -> StateTransformer Value
@@ -399,7 +399,7 @@ getResult (ST f) = f empty
 
 main :: IO ()
 main = do
-    js <- Parser.parseFromFile "JS/Fatorial.js"
+    js <- Parser.parseFromFile "JS/Sum10.js"
     let statements = unJavaScript js
     putStrLn $ "AST: " ++ (show $ statements) ++ "\n"
     putStr $ showResult $ getResult $ evaluate environment statements

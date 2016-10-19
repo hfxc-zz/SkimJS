@@ -8,6 +8,6 @@ function fib(n) {
 	}
 }
 
-var x = fib(10);
+var x = fib(30);
 
 x;

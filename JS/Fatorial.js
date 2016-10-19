@@ -8,6 +8,6 @@ function fat(n) {
 	}
 }
 
-var x = fat(3);
+var x = fat(10);
 
 x;
